@@ -37,6 +37,8 @@ class BrowserPlugin extends DAV\Browser\Plugin
 	public function 
 	human_filesize($bytes, $dec = 2) 
 	{
+		if(!is_numeric($bytes)) return $bytes;
+
 		$size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
 		$factor = floor((strlen($bytes) - 1) / 3);
 
@@ -256,7 +258,7 @@ HTML;
 	}
 
 	public function
-	htmlActionsPanel (DAV\INode $node, &$output)
+	htmlActionsPanel (DAV\INode $node, &$output, $path='')
 	{
 		if (!$node instanceof DAV\ICollection) {
 			return;
