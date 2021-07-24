@@ -21,6 +21,9 @@ namespace SambaDAV;
 
 abstract class Cache
 {
+	private $cipher = "AES-256-CBC";
+	private $options = OPENSSL_RAW_DATA | OPENSSL_ZERO_PADDING;
+
 	// Write $data to cache as $key, good for $timeout seconds.
 	// Returns true/false.
 	abstract protected function write ($key, $data, $timeout);
@@ -45,9 +48,20 @@ abstract class Cache
 		// to open the existing cache file and get a decode error:
 		return sha1($auth->user . $auth->pass . $callableName . $uri->uriFull(), false);
 	}
+	
+	private function 
+	pad_zero($data)
+	{
+		$len = 16;
+		if (strlen($data) % $len) {
+			$padLength = $len - strlen($data) % $len;
+			$data .= str_repeat("\0", $padLength);
+		}
+		return $data;
+	}
 
 	public function
-	serialize ($data, &$raw, $iv_size, $user_key)
+	serialize ($data, &$raw, $user_key)
 	{
 		// Serialize the raw data:
 		if (($ser = serialize($data)) === false) {
@@ -58,17 +72,17 @@ abstract class Cache
 			return false;
 		}
 		// Encrypt:
-		if (($raw = $this->encrypt($com, $iv_size, $user_key)) === false) {
+		if (($raw = $this->encrypt($com, $user_key)) === false) {
 			return false;
 		}
 		return true;
 	}
 
 	public function
-	unserialize (&$data, $raw, $iv_size, $user_key)
+	unserialize (&$data, $raw, $user_key)
 	{
 		// Decode:
-		if (($dec = $this->decrypt($raw, $iv_size, $user_key)) === false) {
+		if (($dec = $this->decrypt($raw, $user_key)) === false) {
 			return false;
 		}
 		// Uncompress:
@@ -82,27 +96,34 @@ abstract class Cache
 		return true;
 	}
 
-	public function
-	encrypt ($data, $iv_size, $user_key)
+	private function
+	generate_encryption_key($user_key, $salt)
 	{
-		if (($iv = mcrypt_create_iv($iv_size, MCRYPT_RAND)) === false) {
+		return sha1($salt . $user_key . 'webfolders', true) . substr($salt, 0, 4);	// 24 bytes
+	}
+
+	public function
+	encrypt ($data, $user_key)
+	{
+		if (($iv = openssl_random_pseudo_bytes(openssl_cipher_iv_length($this->cipher))) === false) {
 			return false;
 		}
 		// The key is a salted hash of the user's password;
 		// this salt is not very random, but "good enough";
 		// MD5-hash it to a binary value so its length is constant and known: 16 bytes:
 		$salt = md5(uniqid('', true), true);
-		$key = sha1($salt . $user_key . 'webfolders', true) . substr($salt, 0, 4);	// 24 bytes
+		$key = $this->generate_encryption_key($user_key, $salt);
 
 		// Prepend the IV and the password salt to the data; both are not secret:
-		return $iv . $salt . mcrypt_encrypt(MCRYPT_RIJNDAEL_128, $key, $data, MCRYPT_MODE_CBC, $iv);
+		return $iv . $salt . openssl_encrypt($this->pad_zero($data), $this->cipher, $key, $this->options, $iv);
 	}
 
 	public function
-	decrypt ($data, $iv_size, $user_key)
+	decrypt ($data, $user_key)
 	{
 		// Binary MD5 hash is 16 bytes long:
 		$salt_size = 16;
+		$iv_size = openssl_cipher_iv_length($this->cipher);
 
 		// Get the IV and the salt from the front of the encrypted data:
 		if (strlen($data) < $iv_size + $salt_size) {
@@ -110,9 +131,9 @@ abstract class Cache
 		}
 		$iv = substr($data, 0, $iv_size);
 		$salt = substr($data, $iv_size, $salt_size);
-		$key = sha1($salt . $user_key . 'webfolders', true) . substr($salt, 0, 4);
+		$key = $this->generate_encryption_key($user_key, $salt);
 
-		return mcrypt_decrypt(MCRYPT_RIJNDAEL_128, $key, substr($data, $iv_size + $salt_size), MCRYPT_MODE_CBC, $iv);
+		return openssl_decrypt(substr($data, $iv_size + $salt_size), $this->cipher, $key, $this->options, $iv);
 	}
 
 	public function

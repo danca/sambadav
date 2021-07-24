@@ -2,7 +2,7 @@
 
 namespace SambaDAV;
 
-class SMBProcessTest extends \PHPUnit_Framework_TestCase
+class SMBProcessTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	testWriteAuth ()
@@ -17,7 +17,7 @@ class SMBProcessTest extends \PHPUnit_Framework_TestCase
 
 		$fd = fopen('php://temp', 'rw');
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getAuthFileHandle', 'closeAuthFileHandle'),
 			array($auth, null, $log));
 
@@ -48,7 +48,7 @@ class SMBProcessTest extends \PHPUnit_Framework_TestCase
 
 		$fd = fopen('php://temp', 'rw');
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getAuthFileHandle', 'closeAuthFileHandle'),
 			array($auth, null, $log));
 
@@ -79,7 +79,7 @@ class SMBProcessTest extends \PHPUnit_Framework_TestCase
 
 		$fd = fopen('php://temp', 'rw');
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getAuthFileHandle', 'closeAuthFileHandle'),
 			array($auth, null, $log));
 
@@ -100,7 +100,7 @@ class SMBProcessTest extends \PHPUnit_Framework_TestCase
 		$fd = fopen('php://temp', 'rw');
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getStdinHandle', 'closeStdinHandle'),
 			array(null, null, $log));
 

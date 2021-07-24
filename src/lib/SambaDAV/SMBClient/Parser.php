@@ -154,7 +154,7 @@ class Parser
 				// This is the only status we consider
 				// acceptable; continue with next line:
 				case 'NT_STATUS_OK':
-					continue;
+					continue 2;
 
 				case 'NT_STATUS_LOGON_FAILURE':
 				case 'NT_STATUS_ACCESS_DENIED':	// TODO: this can also mean "not writable"

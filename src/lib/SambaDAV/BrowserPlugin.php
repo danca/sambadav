@@ -35,6 +35,15 @@ class BrowserPlugin extends DAV\Browser\Plugin
 	}
 
 	public function 
+	human_filesize($bytes, $dec = 2) 
+	{
+		$size   = array('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB');
+		$factor = floor((strlen($bytes) - 1) / 3);
+
+		return sprintf("%.{$dec}f ", $bytes / pow(1024, $factor)) . @$size[$factor];
+	}
+        
+	public function 
 	initialize(DAV\Server $server) 
 	{
 		parent::initialize($server);
@@ -218,7 +227,7 @@ HTML;
 				$html .= "          <td><a href=\"$fullPath\"><img src=\"{$this->server->getBaseUri()}$icon\" alt=\"\"/></a></td>\n";
 				$html .= "          <td><a href=\"$fullPath\">{$subProps['displayPath']}</a></td>\n";
 				$html .= "          <td>$type</td>\n";
-				$html .= "          <td>$size</td>\n";
+				$html .= "          <td>{$this->human_filesize($size)}</td>\n";
 				$html .= "          <td>$lastmodified</td>\n";
 
 				if ($this->config->browserplugin_enable_delete === true) { 

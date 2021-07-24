@@ -1,8 +1,7 @@
 <?php
-
 namespace SambaDAV;
 
-class AuthTest extends \PHPUnit_Framework_TestCase
+class AuthTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	fillPatternProvider ()

@@ -2,7 +2,7 @@
 
 namespace SambaDAV;
 
-class URITest extends \PHPUnit_Framework_TestCase
+class URITest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	uriFullProvider ()

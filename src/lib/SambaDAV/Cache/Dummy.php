@@ -19,7 +19,7 @@
 
 namespace SambaDAV\Cache;
 
-class Null extends \SambaDAV\Cache
+class Dummy extends \SambaDAV\Cache
 {
 	// This class does nothing but throw away the cache data;
 	// it's for when the admin has turned off caching.

@@ -2,7 +2,7 @@
 
 namespace SambaDAV;
 
-class SMBParserTest extends \PHPUnit_Framework_TestCase
+class SMBParserTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	testConnectFailed ()
@@ -11,7 +11,7 @@ class SMBParserTest extends \PHPUnit_Framework_TestCase
 		$fd = fopen('data://text/plain,' . $outp, 'r');
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getStdoutHandle'),
 			array(null, null, $log));
 
@@ -51,7 +51,7 @@ EOT;
 		$fd = fopen('data://text/plain,' . $outp, 'r');
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getStdoutHandle'),
 			array(null, null, $log));
 
@@ -82,7 +82,7 @@ EOT;
 		$fd = fopen('data://text/plain,' . $outp, 'r');
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getStdoutHandle'),
 			array(null, null, $log));
 
@@ -105,7 +105,7 @@ EOT;
 		$fd = fopen('data://text/plain,' . $outp, 'r');
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('getStdoutHandle'),
 			array(null, null, $log));
 

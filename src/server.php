@@ -55,7 +55,7 @@ if ($auth->exec() === false) {
 // Create cache object:
 $cache = ($config->cache_use)
 	? new Cache\Filesystem($config->cache_dir)
-	: new Cache\Null();
+	: new Cache\Dummy();
 
 // Clean stale cache files every once in a blue moon:
 // Time-based throttling to prevent too-frequent rechecking;

@@ -206,7 +206,7 @@ class File extends DAV\FSExt\File
 			switch ($this->smb->setMode($this->uri, $modeflag)) {
 				case SMB::STATUS_OK:
 					$invalidate = true;
-					continue;
+					continue 2;
 
 				case SMB::STATUS_NOTFOUND: $this->exc_notfound();
 				case SMB::STATUS_SMBCLIENT_ERROR: $this->exc_smbclient();

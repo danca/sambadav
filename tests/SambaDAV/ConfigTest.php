@@ -2,7 +2,7 @@
 
 namespace SambaDAV;
 
-class ConfigTest extends \PHPUnit_Framework_TestCase
+class ConfigTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	testSet ()

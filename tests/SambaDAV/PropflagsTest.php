@@ -2,7 +2,7 @@
 
 namespace SambaDAV;
 
-class PropflagsTest extends \PHPUnit_Framework_TestCase
+class PropflagsTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	testFromWin32Neg_A ()

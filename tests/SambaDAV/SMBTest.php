@@ -2,14 +2,14 @@
 
 namespace SambaDAV;
 
-class SMBTest extends \PHPUnit_Framework_TestCase
+class SMBTest extends \PHPUnit\Framework\TestCase
 {
 	public function
 	testGetShares ()
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
@@ -28,7 +28,7 @@ class SMBTest extends \PHPUnit_Framework_TestCase
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
@@ -47,7 +47,7 @@ class SMBTest extends \PHPUnit_Framework_TestCase
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
@@ -66,7 +66,7 @@ class SMBTest extends \PHPUnit_Framework_TestCase
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
@@ -85,7 +85,7 @@ class SMBTest extends \PHPUnit_Framework_TestCase
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
@@ -104,7 +104,7 @@ class SMBTest extends \PHPUnit_Framework_TestCase
 	{
 		$log = new Log\Filesystem(Log::NONE);
 
-		$proc = $this->getMock('\SambaDAV\SMBClient\Process',
+		$proc = $this->createMock('\SambaDAV\SMBClient\Process',
 			array('open'),
 			array(null, null, $log));
 
